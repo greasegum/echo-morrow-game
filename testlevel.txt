@@ -1,0 +1,64 @@
+// Initialize test level state
+Level "Whispergrove":
+    Seed = "∆-echo-n1"
+    Active_Glyphs = Set(“ȹu”, “ʘa”, “kə”, “mni”)
+    Environment = Forest(RootNet=“Dormant”, Canopy=“Aetheric”)
+    Lore_Fragments = [
+        “The roots speak in pairs.”,
+        “Mni knows the thirst.”,
+        “When ʘa is called, silence follows.”
+    ]
+    Initial_Player_Vocabulary = [“mni”, “ȹu”]
+    Echo_Memory = []  // stores player’s utterance history
+    Harmonics = 0.0   // alignment with native semantic field
+    Mood = "Disoriented" // early-stage perceptual haze
+
+// Define entities (semiotic agents)
+Entities = [
+    Entity("Mycolith", TriggerGlyph="mni", Response="spore-pulse", 
+           Affinity=["wet"], EchoResponse="release 'ʘa'"),
+    Entity("Sibroot", TriggerGlyph="ȹu", Response="pulse-rhythm", 
+           Affinity=["paired-glyphs"], EchoResponse="teach 'kə'"),
+    Entity("Winnower", TriggerGlyph="ʘa", Response="vanish", 
+           Affinity=["solitary"], EchoResponse="decay ‘mni’ usage"),
+]
+
+// Core mechanic — Chorale Engine loop
+function Chorale_Engine(player_input):
+    if player_input in Active_Glyphs:
+        Echo_Memory.append(player_input)
+        update_harmonics(player_input)
+        
+        for entity in Entities:
+            if entity.TriggerGlyph == player_input:
+                response = entity.Response
+                display_response(response)
+                if entity.EchoResponse != null:
+                    process_echo(entity.EchoResponse)
+                    if response == "teach":
+                        teach_glyph_to_player(entity.EchoResponse)
+    else:
+        display_feedback("Unintelligible echo")
+        harm_harmonics()
+
+// Rule: Environment reacts over time to accumulated echoes
+function update_environment():
+    if Harmonics > 0.8:
+        Environment.RootNet = "Awake"
+        spawn_entity("Cryptoglyph", condition="Sibroot and Mycolith both echoed in sequence")
+    elif Harmonics < 0.2:
+        Environment.Canopy = "Withered"
+        restrict_player_vocabulary()
+
+// Example player loop
+loop Game_Tick:
+    input = get_player_glyph_input()
+    Chorale_Engine(input)
+    update_environment()
+    reveal_hidden_lore()
+    render_changes()
+
+// End condition (soft exit)
+if Echo_Memory.length > 20 and Harmonics > 0.9:
+    display_final_fragment("You are no longer listening. You are remembering.")
+    transition_to_next_level("Vessel of First Light")

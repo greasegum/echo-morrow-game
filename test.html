@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whispergrove Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a2a3a;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+        }
+        #testCanvas {
+            border: 2px solid #4a5d6a;
+            background: #2a3a4a;
+        }
+        #debug {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #4a5d6a;
+        }
+    </style>
+</head>
+<body>
+    <h1>Whispergrove Debug Test</h1>
+    <canvas id="testCanvas" width="400" height="300"></canvas>
+    <div id="debug">
+        <h3>Debug Info:</h3>
+        <div id="debugInfo"></div>
+    </div>
+
+    <script>
+        // Simple test to see if canvas works
+        const canvas = document.getElementById('testCanvas');
+        const ctx = canvas.getContext('2d');
+        const debugInfo = document.getElementById('debugInfo');
+        
+        debugInfo.innerHTML = `
+            <p>Canvas width: ${canvas.width}</p>
+            <p>Canvas height: ${canvas.height}</p>
+            <p>Context: ${ctx ? 'Available' : 'Failed'}</p>
+        `;
+        
+        if (ctx) {
+            // Draw a simple test
+            ctx.fillStyle = 'rgba(122, 155, 168, 0.5)';
+            ctx.fillRect(50, 50, 100, 100);
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '20px Courier New';
+            ctx.fillText('Test', 80, 110);
+            
+            debugInfo.innerHTML += '<p>✅ Canvas drawing successful</p>';
+        } else {
+            debugInfo.innerHTML += '<p>❌ Canvas drawing failed</p>';
+        }
+        
+        // Test if main game files load
+        console.log('Testing game file loading...');
+    </script>
+    
+    <script src="audio-engine.js"></script>
+    <script src="game.js"></script>
+    
+    <script>
+        // Test game initialization
+        setTimeout(() => {
+            try {
+                const game = new WhispergroveGame();
+                debugInfo.innerHTML += '<p>✅ Game initialized successfully</p>';
+            } catch (error) {
+                debugInfo.innerHTML += `<p>❌ Game initialization failed: ${error.message}</p>`;
+                console.error('Game init error:', error);
+            }
+        }, 1000);
+    </script>
+</body>
+</html> 
