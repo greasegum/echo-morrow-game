@@ -4,7 +4,7 @@ A browser-based philosophical game exploring linguistic consciousness and collec
 
 ## Overview
 
-Echo Morrow is an experimental game that combines complex philosophical concepts from Deleuze and Guattari's *A Thousand Plateaus* with interactive linguistic mechanics. Players communicate with forest entities using ancient glyphs, experiencing dynamic visual and audio synthesis through the Web Audio API.
+Echo Morrow is an experimental game that combines color and sound with linguistic mechanics. Players communicate with entities in a variety of environments using glyphs, experiencing dynamic visual and audio synthesis.
 
 ## Game Mechanics
 
